@@ -1,0 +1,26 @@
+{
+  "name": "smart-hustle-assistant",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SHA - Smart Hustle Assistant. Know your profit. Never run out of stock.",
+  "scripts": {
+    "dev": "concurrently -n server,client -c green,cyan \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "migrate": "npm run migrate --prefix server",
+    "seed": "npm run seed --prefix server",
+    "setup": "npm run migrate --prefix server && npm run seed --prefix server",
+    "test": "npm run test --prefix server",
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client",
+    "build": "npm run build --prefix client",
+    "start": "npm run start --prefix server",
+    "start:prod": "npm run build && npm run start --prefix server",
+    "prepare:hosting": "node scripts/prepare-hosting.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
