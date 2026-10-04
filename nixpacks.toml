@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["nodejs_20"]
+
+[phases.install]
+cmds = ["npm install --prefix hosting --omit=dev"]
+
+[phases.build]
+cmds = ["echo 'Using prebuilt hosting/public — skip Vite'"]
+
+[start]
+cmd = "npm start --prefix hosting"

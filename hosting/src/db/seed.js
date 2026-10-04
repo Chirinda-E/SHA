@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import mysql from 'mysql2/promise';
 import { env } from '../config/env.js';
 import { money } from '../utils/money.js';

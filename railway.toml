@@ -1,0 +1,7 @@
+[build]
+builder = "NIXPACKS"
+buildCommand = "npm install --prefix hosting --omit=dev"
+
+[deploy]
+startCommand = "npm start --prefix hosting"
+restartPolicyType = "ON_FAILURE"

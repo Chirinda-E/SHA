@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { query } from '../db/pool.js';
 import { conflict, unauthorized, badRequest } from '../utils/httpError.js';
 import { signToken } from '../middleware/auth.js';
