@@ -8,4 +8,4 @@ cmds = ["npm install --prefix hosting --omit=dev"]
 cmds = ["echo 'Using prebuilt hosting/public — skip Vite'"]
 
 [start]
-cmd = "npm start --prefix hosting"
+cmd = "node scripts/railway-start.js"

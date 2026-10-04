@@ -21,6 +21,9 @@ if (typeof rawPool.on === 'function') {
   rawPool.on('connection', (connection) => {
     connection.query("SET time_zone = '+02:00'");
   });
+  rawPool.on('error', (err) => {
+    console.error('MySQL pool error (app stays up):', err.code || err.message);
+  });
 }
 
 export async function query(sql, params = []) {
