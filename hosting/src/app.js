@@ -70,7 +70,7 @@ export function createApp() {
   app.post('/api/plan/upgrade', requireAuth, upgrade);
   app.post('/api/demo/reset', requireAuth, resetDemo);
 
-  const dist = isProd ? clientDistDir() : null;
+  const dist = clientDistDir();
   if (dist) {
     app.use(express.static(dist, { index: false, maxAge: isProd ? '1h' : 0 }));
     app.get(/^(?!\/api).*/, (req, res, next) => {

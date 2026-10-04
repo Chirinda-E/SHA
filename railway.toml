@@ -4,4 +4,6 @@ buildCommand = "npm install --prefix hosting --omit=dev"
 
 [deploy]
 startCommand = "npm start --prefix hosting"
+healthcheckPath = "/api/health"
+healthcheckTimeout = 30
 restartPolicyType = "ON_FAILURE"

@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import { hashPassword, checkPassword } from '../utils/password.js';
 import { query } from '../db/pool.js';
 import { conflict, unauthorized, badRequest } from '../utils/httpError.js';
 import { signToken } from '../middleware/auth.js';
@@ -28,7 +28,7 @@ export async function registerUser({ fullName, phone, password }) {
   if (existing.length) {
     throw conflict('That phone number already has an account. Try logging in.');
   }
-  const passwordHash = await bcrypt.hash(password, 10);
+  const passwordHash = await hashPassword(password);
   const result = await query(
     'INSERT INTO users (full_name, phone, password_hash) VALUES (?, ?, ?)',
     [fullName, phone, passwordHash],
@@ -47,7 +47,7 @@ export async function loginUser({ phone, password }) {
     [phone],
   );
   if (!users.length) throw unauthorized('Phone or password is wrong.');
-  const ok = await bcrypt.compare(password, users[0].password_hash);
+  const ok = await checkPassword(password, users[0].password_hash);
   if (!ok) throw unauthorized('Phone or password is wrong.');
 
   const businesses = await query(
@@ -61,9 +61,9 @@ export async function loginUser({ phone, password }) {
 export async function changePassword(userId, { currentPassword, newPassword }) {
   const users = await query('SELECT password_hash FROM users WHERE id = ?', [userId]);
   if (!users.length) throw unauthorized();
-  const ok = await bcrypt.compare(currentPassword, users[0].password_hash);
+  const ok = await checkPassword(currentPassword, users[0].password_hash);
   if (!ok) throw badRequest('Current password is wrong.');
-  const passwordHash = await bcrypt.hash(newPassword, 10);
+  const passwordHash = await hashPassword(newPassword);
   await query('UPDATE users SET password_hash = ? WHERE id = ?', [passwordHash, userId]);
 }
 

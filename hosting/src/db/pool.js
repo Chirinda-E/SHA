@@ -16,9 +16,12 @@ export const pool = mysql.createPool({
   charset: 'utf8mb4',
 });
 
-pool.on('connection', (connection) => {
-  connection.query("SET time_zone = '+02:00'");
-});
+const rawPool = pool.pool || pool;
+if (typeof rawPool.on === 'function') {
+  rawPool.on('connection', (connection) => {
+    connection.query("SET time_zone = '+02:00'");
+  });
+}
 
 export async function query(sql, params = []) {
   const [rows] = await pool.execute(sql, params);

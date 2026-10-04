@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import bcrypt from 'bcryptjs';
+import { hashPassword } from '../utils/password.js';
 import mysql from 'mysql2/promise';
 import { env } from '../config/env.js';
 import { money } from '../utils/money.js';
@@ -36,7 +36,7 @@ function sqlDate(d) {
 }
 
 export async function seed() {
-  const hash = await bcrypt.hash(DEMO_PASSWORD, 10);
+  const hash = await hashPassword(DEMO_PASSWORD);
   const seedPath = databaseFile('seed.sql');
   let sql = await fs.readFile(seedPath, 'utf8');
   sql = sql.replace(/\$2b\$10\$REPLACE_ME_IN_NODE_SEED\.+/, () => hash);
